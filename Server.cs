@@ -26,7 +26,7 @@ namespace UdpServer
                 {
                     string IpFromMod = ModIP(message.IpFrom);
                     string IpToMod = ModIP(message.IpTo);
-                    string fileName = GenerateFilenAME(IpFromMod, IpToMod);
+                    string fileName = GenerateFileName(IpFromMod, IpToMod);
                     if (fileName != null)
                     {
                         var curDir = Directory.GetCurrentDirectory();
@@ -38,10 +38,32 @@ namespace UdpServer
                     }
                     Console.WriteLine(message.ToJSON());
                 }
+                else if (message.Command == "Update")
+                {
+                    string IpFromMod = ModIP(message.IpFrom);
+                    string IpToMod = ModIP(message.IpTo);
+                    string fileName = GenerateFileName(IpFromMod, IpToMod);
+                    var curDir = Directory.GetCurrentDirectory();
+                    curDir = curDir.Replace("\\", "/");
+                    string file = String.Format($"{curDir}/history/{fileName}.txt");
+                    try
+                    {
+                        using var sr = new StreamReader(file, true);
+                        string pathMessage = file;
+                        byte[] messageBytes = System.IO.File.ReadAllBytes(file);
+
+                        udpClient.Send(messageBytes, new IPEndPoint(IPAddress.Parse(message.IpFrom), 34285));
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+
+                }
             }
         }
 
-        public static string GenerateFilenAME(string firstIp, string secondIp)
+        public static string GenerateFileName(string firstIp, string secondIp)
         {
 
            
