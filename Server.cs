@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using UdpServer.Models;
 
 namespace UdpServer
 {
@@ -36,6 +37,10 @@ namespace UdpServer
                         await sw.WriteAsync(message.ToJSON() + "\n");
                         sw.Flush();
                     }
+                    
+                    Chat chat = new Chat(fileName);
+                    chat.Messages.Add(message);
+                    MongoConnector.addChat(chat);
                     Console.WriteLine(message.ToJSON());
                 }
                 else if (message.Command == "Update")
@@ -66,8 +71,8 @@ namespace UdpServer
         public static string GenerateFileName(string firstIp, string secondIp)
         {
 
+             
            
-            
             string[] arr1 = firstIp.Split('_');
             string[] arr2 = secondIp.Split('_');
             for (int i = 0; i < 4; i++)

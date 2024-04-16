@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace UdpServer
+namespace UdpServer.Models
 {
     public class Message
     {
@@ -19,12 +19,12 @@ namespace UdpServer
 
         public Message(string command, string text, string ipTo, string ipFrom)
         {
-            this.Command = command;
-            this.Text = text;
-            this.IpFrom = ipFrom;
-            this.IpTo = ipTo;
+            Command = command;
+            Text = text;
+            IpFrom = ipFrom;
+            IpTo = ipTo;
 
-            this.DateTime = DateTime.Now;
+            DateTime = DateTime.Now;
         }
 
         public string ToJSON()
