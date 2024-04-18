@@ -15,18 +15,44 @@ namespace UdpServer
         private static MongoClient client = new MongoClient("mongodb://localhost:27017");
         private static IMongoDatabase chatDataBase = client.GetDatabase("ChatDB");
         private static IMongoCollection<Chat> chats = chatDataBase.GetCollection<Chat>("chats");
+        private static void UpdateChat(Chat chat)
+        {
 
+
+            var filter = new BsonDocument { { "fileName", chat.fileName } };
+            chats.ReplaceOne(filter, chat);
+
+
+        }
         public static void addChat (Chat chat)
         {
             chats.InsertOne(chat);
         }
 
-        public static void findChat(Chat chat)  
+        public static Chat findOneChat(Chat chat)  
         {
-            var collection = chatDataBase.GetCollection<Chat>("chats");
-            List<Chat> chats = collection.Find(new BsonDocument()).ToList();
+            var filter = new BsonDocument { { "Name", chat.fileName } };
+            var chatsArray = chats.Find(filter).ToListAsync();
+            foreach (var item in chatsArray.Result)
+            {
+                return item;
+            }
+            return null;
         }
 
+
+        public static void UpdateData(Chat chat)
+        {
+            Chat findChat =  findOneChat(chat);
+            if (findChat == null)
+            {
+                addChat(chat);
+            }
+            else
+            {
+                UpdateChat(chat);
+            }
+        }
 
     }
 }

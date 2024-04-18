@@ -33,15 +33,17 @@ namespace UdpServer
                         var curDir = Directory.GetCurrentDirectory();
                         curDir =  curDir.Replace("\\", "/");
                         string newFileName = String.Format($"{curDir}/history/{fileName}.txt");
-                        using var sw = new StreamWriter(newFileName, true);
-                        await sw.WriteAsync(message.ToJSON() + "\n");
-                        sw.Flush();
+                        
+
+                        //using var sw = new StreamWriter(newFileName, true);
+                        //await sw.WriteAsync(message.ToJSON() + "\n");
+                        //sw.Flush();
                     }
                     
-                    Chat chat = new Chat(fileName);
-                    chat.Messages.Add(message);
-                    MongoConnector.addChat(chat);
-                    Console.WriteLine(message.ToJSON());
+                    //Chat chat = new Chat(fileName);
+                    //chat.Messages.Add(message);
+                    //MongoConnector.addChat(chat);
+                    //Console.WriteLine(message.ToJSON());
                 }
                 else if (message.Command == "Update")
                 {
