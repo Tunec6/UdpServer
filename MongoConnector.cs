@@ -17,12 +17,10 @@ namespace UdpServer
         private static IMongoCollection<Chat> chats = chatDataBase.GetCollection<Chat>("chats");
         private static void UpdateChat(Chat chat)
         {
-
-
             var filter = new BsonDocument { { "fileName", chat.fileName } };
-            chats.ReplaceOne(filter, chat);
 
-
+            var update = Builders<Chat>.Update.Set(x => x.Messages, chat.message); // Обновляем последний элемент массива "Messages"
+            chats.UpdateOne(filter, update);
         }
         public static void addChat (Chat chat)
         {

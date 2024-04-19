@@ -19,5 +19,6 @@ namespace UdpServer.Models
             this.fileName = chatName;
         }
 
+        public IEnumerable<string> Name { get; internal set; }
     }
 }

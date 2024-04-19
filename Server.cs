@@ -33,6 +33,9 @@ namespace UdpServer
                         var curDir = Directory.GetCurrentDirectory();
                         curDir =  curDir.Replace("\\", "/");
                         string newFileName = String.Format($"{curDir}/history/{fileName}.txt");
+                        Chat chat = new Chat(fileName);
+                        chat.Messages.Add(message);
+                        MongoConnector.addChat(chat);
                         
 
                         //using var sw = new StreamWriter(newFileName, true);
@@ -40,10 +43,7 @@ namespace UdpServer
                         //sw.Flush();
                     }
                     
-                    //Chat chat = new Chat(fileName);
-                    //chat.Messages.Add(message);
-                    //MongoConnector.addChat(chat);
-                    //Console.WriteLine(message.ToJSON());
+                    Console.WriteLine(message.ToJSON());
                 }
                 else if (message.Command == "Update")
                 {
